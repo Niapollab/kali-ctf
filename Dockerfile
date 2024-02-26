@@ -37,7 +37,7 @@ EXPOSE $SSHD_PORT
 
 # Copy *.sh and requirements.txt to /bin directory
 COPY entrypoint.sh /bin/entrypoint.sh
-COPY *requirements* /tmp
+COPY *requirements* /tmp/
 
 # Install requirements
 RUN sed -e 's/sudo //g' /tmp/install_requirements.sh > /tmp/install_requirements_no_sudo.sh \
