@@ -58,6 +58,16 @@ If you want to use your own local network through ZeroTier register identity. It
 mkdir -p /var/lib/zerotier && zerotier-one -i generate /var/lib/zerotier/identity.secret /var/lib/zerotier/identity.public && chown zerotier-one:zerotier-one /var/lib/zerotier/*
 ```
 
+### Make volume accessible for Linux local user
+
+1. Set a custom rights mask for the volume directory:
+
+    ```shell
+    setfacl -d -m g::rwx /<volume directory>
+    ```
+
+2. Launch the container with flag `--user :$(id -g)`.
+
 ## Run container
 
 Run [ctf.cmd](ctf.cmd) or use command:
