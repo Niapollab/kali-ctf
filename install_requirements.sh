@@ -30,7 +30,8 @@ sudo apt install -y \
     strace \
     ltrace \
     checksec \
-    qemu-system
+    qemu-system \
+    upx-ucl
 
 # Install pwn packages from repos
 sudo apt install -y \
@@ -50,7 +51,8 @@ sudo apt install -y \
 # Install forensic packages from repos
 sudo apt install -y \
     binwalk \
-    wordlists
+    wordlists \
+    exiftool
 
 # Install crypto packages from repos
 sudo apt install -y \
