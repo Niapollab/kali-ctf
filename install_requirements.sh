@@ -10,7 +10,9 @@ sudo apt install -y \
     git \
     vim \
     ssh \
+    fzf \
     nano \
+    micro \
     man \
     less \
     rlwrap \
@@ -57,7 +59,8 @@ sudo apt install -y \
 # Install crypto packages from repos
 sudo apt install -y \
     hashcat \
-    fcrackzip
+    fcrackzip \
+    john
 
 # Install stego packages from repos
 sudo apt install -y \
@@ -75,6 +78,13 @@ bash -c "$(curl -fsSL https://gef.blah.cat/sh)"
 
 # Install python packages
 pip --no-cache-dir install --root-user-action=ignore --ignore-requires-python -r /tmp/requirements.txt
+
+# Install fzf keybindings
+echo "source /usr/share/doc/fzf/examples/key-bindings.zsh" >> "$HOME/.zshrc"
+
+# Install CTRL+R command search shortcut
+sudo git clone https://github.com/joshskidmore/zsh-fzf-history-search /usr/share/zsh-fzf-history-search
+echo "source /usr/share/zsh-fzf-history-search/zsh-fzf-history-search.zsh" >> "$HOME/.zshrc"
 
 # Clean cache
 sudo rm -rf /var/cache/apt/archives /var/lib/apt/lists
