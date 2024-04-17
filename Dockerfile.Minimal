@@ -1,0 +1,83 @@
+# Pull last Kali version
+FROM kalilinux/kali-rolling
+
+# Build arguments
+ARG USER_UID=1000
+ARG USER_GID="$USER_UID"
+ARG USERNAME='ctf-player'
+
+# Install base packages
+RUN apt update && \
+    apt upgrade && \
+    apt install -y \
+    # Root rights management
+    'sudo' \
+    # SSH
+    'ssh' \
+    # Transferring data over network protocols
+    'curl' \
+    'wget' \
+    # Version control
+    'git' \
+    # Shell
+    'zsh' \
+    'zsh-syntax-highlighting' \
+    'zsh-autosuggestions' \
+    # Fuzzy search
+    'fzf' \
+    # Text editors
+    'nano' \
+    'vim' \
+    'micro' \
+    # Documentation
+    'man' \
+    # Pager
+    'less' \
+    # Network management tools
+    'inetutils-ping' \
+    'net-tools' \
+    'netcat-traditional' \
+    # VPNs
+    'openvpn'
+
+# Remove all files in /root directory
+RUN rm --recursive --force '/root' && \
+    mkdir '/root'
+
+# Change shell for root user to zsh
+RUN chsh --shell '/bin/zsh'
+
+# Install oh my zsh
+RUN ZSH='/usr/share/oh-my-zsh' sh -c "$(curl -fsSL 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh')"
+
+# Install kali-theme to oh my zsh
+RUN mkdir -p '/usr/share/oh-my-zsh/custom/themes' && \
+    curl -sL 'https://raw.githubusercontent.com/clamy54/kali-like-zsh-theme/main/kali-like.zsh-theme' -o '/usr/share/oh-my-zsh/custom/themes/kali.zsh-theme' && \
+    sed -i 's/\(ZSH_THEME="\).*"/\1kali"/g' '/root/.zshrc'
+
+# Install fzf keybindings for zsh
+RUN git clone 'https://github.com/joshskidmore/zsh-fzf-history-search' '/usr/share/zsh-fzf-history-search' && \
+    echo 'source /usr/share/doc/fzf/examples/key-bindings.zsh' >> '/root/.zshrc' && \
+    echo 'source /usr/share/zsh-fzf-history-search/zsh-fzf-history-search.zsh' >> '/root/.zshrc'
+
+# Create rootless user
+RUN groupadd --gid "$USER_GID" "$USERNAME" && \
+    useradd --create-home --uid "$USER_UID" --gid "$USER_GID" "$USERNAME" --shell '/bin/zsh'
+
+# Configure passwordless access to sudo for rootless user
+RUN echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# Symlink .zshrc to rootless user
+RUN ln -sf '/root/.zshrc' "/home/$USERNAME/.zshrc"
+
+# Remove apt cache
+RUN rm -rf '/var/cache/apt/archives' '/var/lib/apt/lists/*'
+
+# Set rootless user as default
+USER "$USERNAME"
+
+# Create workspace directory
+WORKDIR /workspace
+
+# Run zsh session
+ENTRYPOINT [ "/bin/zsh" ]
