@@ -59,6 +59,9 @@ RUN mkdir -p '/usr/share/oh-my-zsh/custom/themes' && \
     curl -sL 'https://raw.githubusercontent.com/clamy54/kali-like-zsh-theme/main/kali-like.zsh-theme' -o '/usr/share/oh-my-zsh/custom/themes/kali.zsh-theme' && \
     sed -i 's/\(ZSH_THEME="\).*"/\1kali"/g' '/root/.zshrc'
 
+# Add $HOME/.local/bin to the $PATH
+RUN echo 'PATH="$PATH:$HOME/.local/bin"' >> '/root/.zshrc'
+
 # Install fzf keybindings for zsh
 RUN git clone 'https://github.com/joshskidmore/zsh-fzf-history-search' '/usr/share/zsh-fzf-history-search' && \
     echo 'source /usr/share/doc/fzf/examples/key-bindings.zsh' >> '/root/.zshrc' && \
