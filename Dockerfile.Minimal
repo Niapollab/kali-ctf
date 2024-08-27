@@ -42,7 +42,10 @@ RUN apt update -y && \
     'net-tools' \
     'netcat-traditional' \
     # VPNs
-    'openvpn'
+    'openvpn' \
+    # Binary utils
+    'file' \
+    'binutils'
 
 # Remove all files in /root directory
 RUN rm --recursive --force '/root' && \
