@@ -26,7 +26,7 @@ RUN apt update && apt install -y zsh openssh-server samba cifs-utils
 RUN chsh -s /bin/zsh
 
 # Configure sshd
-RUN mkdir /run/sshd \
+RUN mkdir -p '/run/sshd' \
   && sed -i 's/#Port 22/Port 10122/' /etc/ssh/sshd_config \
   && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
   && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config \
