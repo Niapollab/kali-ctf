@@ -5,7 +5,7 @@ This repository contains the [Kali Linux](https://en.wikipedia.org/wiki/Kali_Lin
 ## TL;DR
 
 ```shell
-docker volume create kali-ctf >nul 2>&1 & docker exec -ti ctf "/bin/zsh" 2>nul || docker start ctf >nul 2>&1 && docker attach ctf 2>nul || docker run --privileged -ti --name ctf -v kali-ctf:/var/lib/zerotier/ -p 10122:10122 ghcr.io/niapollab/kali-ctf:master "/bin/zsh"
+docker volume create kali-ctf >nul 2>&1 & docker exec -ti ctf "/bin/zsh" 2>nul || docker start ctf >nul 2>&1 && docker attach ctf 2>nul || docker run --privileged -ti --name ctf -v kali-ctf:/var/lib/zerotier/ -p 10122:10122 ghcr.io/niapollab/kali-ctf "/bin/zsh"
 ```
 
 ## Build Image
