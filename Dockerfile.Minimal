@@ -27,6 +27,8 @@ RUN apt update -y && \
     'fzf' \
     # cat with syntax highlighting
     'bat' \
+    # cd modern replacement
+    'zoxide' \
     # ls modern replacement
     'eza' \
     # Text editors
@@ -41,8 +43,6 @@ RUN apt update -y && \
     'inetutils-ping' \
     'net-tools' \
     'netcat-traditional' \
-    # VPNs
-    'openvpn' \
     # Binary utils
     'file' \
     'binutils'
@@ -72,8 +72,16 @@ RUN git clone 'https://github.com/joshskidmore/zsh-fzf-history-search' '/usr/sha
 
 # Replace cat and ls with bat and eza aliases
 RUN echo 'alias cat="batcat --paging=never"' >> '/root/.zshrc' && \
+    echo 'alias catp="batcat"' >> '/root/.zshrc' && \
+    echo 'alias ntcat="/bin/cat"' >> '/root/.zshrc' && \
     echo 'alias ls="exa"' >> '/root/.zshrc' && \
-    echo 'alias ll="exa -l"' >> '/root/.zshrc'
+    echo 'alias l="exa -lah"' >> '/root/.zshrc' && \
+    echo 'alias ll="exa -l"' >> '/root/.zshrc' && \
+    echo 'alias lla="exa -la"' >> '/root/.zshrc' && \
+    echo 'alias ntls="/bin/ls"' >> '/root/.zshrc'
+
+# Register zoxide instead of cd
+RUN echo 'eval "$(zoxide init zsh --cmd cd)"' >> '/root/.zshrc'
 
 # Create rootless user
 RUN groupadd --gid "$USER_GID" "$USERNAME" && \
