@@ -77,7 +77,8 @@ cd /tmp \
 bash -c "$(curl -fsSL https://gef.blah.cat/sh)"
 
 # Install python packages
-pip --no-cache-dir install --root-user-action=ignore --ignore-requires-python -r /tmp/requirements.txt
+pip install --root-user-action=ignore --break-system-packages --upgrade pip setuptools
+pip --no-cache-dir install --root-user-action=ignore --ignore-requires-python --break-system-packages -r /tmp/requirements.txt
 
 # Install fzf keybindings
 echo "source /usr/share/doc/fzf/examples/key-bindings.zsh" >> "$HOME/.zshrc"
