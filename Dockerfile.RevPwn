@@ -1,0 +1,23 @@
+FROM kali-ctf:minimal
+
+# Install packages
+RUN sudo apt update -y && \
+    sudo apt upgrade -y && \
+    sudo apt install -y \
+    # Debuger
+    'gdb-multiarch' \
+    # Python
+    'python3' \
+    'python3-pip' \
+    'python-is-python3' \
+    # Python debugger
+    'python3-debugpy' \
+    # Pwntools
+    'python3-pwntools'
+
+# Disable externally-managed-environment
+RUN sudo pip config set global.break-system-packages true && \
+    pip config set global.break-system-packages true
+
+# Install GEF
+RUN bash -c "$(curl -fsSL https://gef.blah.cat/sh)"
